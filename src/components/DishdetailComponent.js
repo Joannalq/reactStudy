@@ -20,9 +20,9 @@ class CommentForm extends Component{
             isModalOpen:!this.state.isModalOpen
         });
     }
-    handleSubmit(event){
+    handleSubmit(values){
         this.toggleModal();
-        alert("Current state is: "+JSON.stringify(event));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
         // event.preventDefault();
     }
 
@@ -100,7 +100,7 @@ class CommentForm extends Component{
         
     }
 
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
         if(comments!=null){
             return (  
                 <div className="col-12 col-md-5 m-1">
@@ -115,7 +115,7 @@ class CommentForm extends Component{
                             );
                         })}
                     </ul>
-                    <CommentForm/>
+                    <CommentForm dishId={dishId} addComment={addComment}/>
                 </div>      
             );
         }else{
@@ -147,7 +147,9 @@ class CommentForm extends Component{
                         <div className="col-12 col-md-5 m-1">
                             <RenderDish dish={props.dish}/>
                         </div>
-                        <RenderComments comments={props.comments} /> 
+                        <RenderComments comments={props.comments} 
+                            addComment={props.addComment}
+                            dishId={props.dish.id}/> 
                         
                     </div>
                 </div>
